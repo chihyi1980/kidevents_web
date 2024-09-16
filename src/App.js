@@ -34,6 +34,7 @@ const HomePage = () => {
 
           {/* 分隔線和間距 */}
           <Box sx={{ marginY: 4 }}>
+            <Divider></Divider>
           </Box>
 
           {/* 第二層 - 中間 */}
@@ -45,7 +46,7 @@ const HomePage = () => {
           </Box>
 
           {/* 第三層 - 底部 */}
-          <BottomLayer />
+          {/* <BottomLayer /> */}
         </Container>
       </Box>
     </ThemeProvider>
