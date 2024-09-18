@@ -4,6 +4,7 @@ import MiddleLayer from './components/MiddleLayer';
 import BottomLayer from './components/BottomLayer';
 import { Container, Box, Divider } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // 創建自定義主題
 const theme = createTheme({
@@ -38,7 +39,12 @@ const HomePage = () => {
           </Box>
 
           {/* 第二層 - 中間 */}
-          <MiddleLayer />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<MiddleLayer />} />
+              <Route path="/event/:eventId" element={<MiddleLayer />} />
+            </Routes>
+          </BrowserRouter>
 
           {/* 分隔線和間距 */}
           <Box sx={{ marginY: 4 }}>
