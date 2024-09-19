@@ -110,7 +110,7 @@ const events = [
     "event_max_age": "21",
     "event_min_age": 6,
     "event_name": "田尾中秋節社區烤肉派對",
-    "event_org": "田尾食農農場",
+    "event_org": "食農農場",
     "event_price": "1500",
     "event_start_date": "2024-09-17",
     "event_tag_names": [
@@ -128,7 +128,7 @@ const events = [
     "event_loc_name": "台中",
     "event_max_age": 11,
     "event_min_age": "3",
-    "event_name": "【中港分館】9/18「幸福的台灣囡仔」台語繪本說故事",
+    "event_name": "9/18「幸福的台灣囡仔」台語繪本說故事",
     "event_org": "中港分館",
     "event_price": "0",
     "event_start_date": "2024-09-17",
@@ -228,7 +228,7 @@ const MiddleLayer = () => {
 
   // 過濾活動
   const filteredEvents = events.filter((event) => {
-    const matchesName = event.event_name.includes(searchText);
+    const matchesName = event.event_name.includes(searchText) || (event.event_org ? event.event_org.includes(searchText): false);
     const matchesRegion = selectedRegion ? event.event_loc_name === selectedRegion : true;
     const matchesAge = selectedAge ? (selectedAge >= event.event_min_age && selectedAge <= event.event_max_age) : true;
     const matchesCategories = selectedCategories.length > 0
@@ -244,7 +244,7 @@ const MiddleLayer = () => {
       <TextField
         fullWidth
         variant="outlined"
-        placeholder="搜索..."
+        placeholder="搜索 活動名稱或單位名稱"
         value={searchText}
         onChange={(e) => setSearchText(e.target.value)}
         InputProps={{
