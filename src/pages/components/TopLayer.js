@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Box, Dialog, DialogTitle, DialogContent, TextField, Button, Snackbar, Alert } from '@mui/material';
 import ContactMailIcon from '@mui/icons-material/ContactMail';

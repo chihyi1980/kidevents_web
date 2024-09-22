@@ -1,3 +1,5 @@
+'use client';  // 將這行加在文件的最頂部
+
 import React, { useState } from 'react';
 import { Masonry } from '@mui/lab';
 import { Box, Typography, Card, CardContent, CardMedia, Dialog, DialogTitle, DialogContent, IconButton } from '@mui/material';

@@ -1,3 +1,5 @@
+'use client';  // 將這行加在文件的最頂部
+
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, IconButton, Typography, Card, CardContent, CardMedia, Snackbar, SnackbarContent, Box } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -8,7 +10,7 @@ const EventDetail = ({ open, event, onClose }) => {
 
   // 處理分享連結
   const handleShare = () => {
-    navigator.clipboard.writeText(window.location.href); // 將當前 URL 複製到剪貼簿
+    navigator.clipboard.writeText(window.location.href + 'event/' + event['_id']); // 將當前 URL 複製到剪貼簿
     setSnackbarOpen(true); // 顯示提示訊息
   };
 
@@ -20,8 +22,8 @@ const EventDetail = ({ open, event, onClose }) => {
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth sx={{ '& .MuiDialog-paper': { width: '90%', maxHeight: '90%' } }}>
       <DialogTitle>
-        {event?.event_name}
-        <Box sx={{ position: 'absolute', right: 16, top: 16 }}>
+        {/* 將 IconButton 放在一行 */}
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
           <IconButton edge="end" color="inherit" onClick={handleShare} aria-label="share" sx={{ marginRight: 1 }}>
             <ShareIcon />
           </IconButton>
@@ -29,6 +31,10 @@ const EventDetail = ({ open, event, onClose }) => {
             <CloseIcon />
           </IconButton>
         </Box>
+        {/* 將活動名稱放在下一行 */}
+        <Typography variant="h5" gutterBottom align="center">
+          {event?.event_name}
+        </Typography>
       </DialogTitle>
       <DialogContent>
         {event && (
@@ -57,7 +63,7 @@ const EventDetail = ({ open, event, onClose }) => {
               活動類型: {event.event_tag_names.join(', ')}
             </Typography>
             <Card>
-              <CardContent variant="body2" gutterBottom>
+              <CardContent>
                 {event.event_content}
               </CardContent>
             </Card>
