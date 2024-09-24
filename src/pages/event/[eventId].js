@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Typography, Card, CardContent, CardMedia, IconButton, Box, Snackbar, SnackbarContent } from '@mui/material';
+import { Typography, Card, CardContent, CardMedia, IconButton, Box, Snackbar, SnackbarContent, Divider } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ShareIcon from '@mui/icons-material/Share';
+import HomeIcon from '@mui/icons-material/Home';
 
 export default function EventPage({ eventId }) {
     const router = useRouter();
@@ -43,6 +44,22 @@ export default function EventPage({ eventId }) {
 
     return (
         <Box sx={{ padding: 3, maxWidth: '800px', margin: '0 auto' }}>
+            <Box>
+                <Typography
+                    variant="h4"
+                    sx={{ flexGrow: 1, color: '#757575' }}
+                >
+                    <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="home" sx={{ marginRight: 1 }}>
+                        <HomeIcon sx={{ fontSize: 40 }} />
+                    </IconButton>
+                    <b>台灣最新兒童活動資訊</b>
+                </Typography>
+            </Box>
+            {/* 分隔線和間距 */}
+            <Box sx={{ marginY: 4 }}>
+                <Divider />
+            </Box>
+
             {/* 將 IconButton 放在一行 */}
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
                 <IconButton edge="end" color="inherit" onClick={handleShare} aria-label="share" sx={{ marginRight: 1 }}>
