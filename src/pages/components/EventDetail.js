@@ -32,18 +32,15 @@ const EventDetail = ({ open, event, onClose }) => {
           </IconButton>
         </Box>
         {/* 將活動名稱放在下一行 */}
-        <Typography variant="h5" gutterBottom align="center">
+        <Typography variant="h4" gutterBottom align="center">
           {event?.event_name}
         </Typography>
       </DialogTitle>
       <DialogContent>
         {event && (
           <>
-            {event.event_img && event.event_img.trim() !== '' && (
-              <CardMedia component="img" image={event.event_img} alt={event.event_name} sx={{ marginBottom: 2, maxWidth: '100%', height: 'auto' }} />
-            )}
             <Typography variant="body1" gutterBottom>
-              活動連結: <a href={event.event_link} target="_blank" rel="noopener noreferrer">{event.event_link}</a>
+              活動連結: <a href={event.event_link} target="_blank" style={{ textDecoration: 'underline' }}>{event.event_link}</a>
             </Typography>
             <Typography variant="body1" gutterBottom>
               活動日期: {new Date(event.event_start_date).toLocaleDateString()} ~ {new Date(event.event_end_date).toLocaleDateString()}
@@ -67,6 +64,9 @@ const EventDetail = ({ open, event, onClose }) => {
                 {event.event_content}
               </CardContent>
             </Card>
+            {event.event_img && event.event_img.trim() !== '' && (
+              <CardMedia component="img" image={event.event_img} alt={event.event_name} sx={{ marginBottom: 2, maxWidth: '100%', height: 'auto' }} />
+            )}
           </>
         )}
       </DialogContent>

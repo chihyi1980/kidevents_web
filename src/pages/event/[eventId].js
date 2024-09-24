@@ -13,7 +13,7 @@ export default function EventPage({ eventId }) {
         // 使用 useEffect 來在頁面載入時取得事件詳情
         const fetchEventDetails = async () => {
             try {
-                const response = await fetch(`/api/events/${eventId}`);
+                const response = await fetch(`/api/events/online/${eventId}`);
                 const data = await response.json();
                 setEvent(data);
             } catch (error) {
@@ -58,17 +58,8 @@ export default function EventPage({ eventId }) {
                 {event.event_name}
             </Typography>
 
-            {event.event_img && event.event_img.trim() !== '' && (
-                <CardMedia
-                    component="img"
-                    image={event.event_img}
-                    alt={event.event_name}
-                    sx={{ marginBottom: 2, maxWidth: '100%', height: 'auto' }}
-                />
-            )}
-
             <Typography variant="body1" gutterBottom>
-                活動連結: <a href={event.event_link} target="_blank" rel="noopener noreferrer">{event.event_link}</a>
+                活動連結: <a href={event.event_link} target="_blank" style={{ textDecoration: 'underline' }}>{event.event_link}</a>
             </Typography>
 
             <Typography variant="body1" gutterBottom>
@@ -100,6 +91,15 @@ export default function EventPage({ eventId }) {
                     </Typography>
                 </CardContent>
             </Card>
+
+            {event.event_img && event.event_img.trim() !== '' && (
+                <CardMedia
+                    component="img"
+                    image={event.event_img}
+                    alt={event.event_name}
+                    sx={{ marginBottom: 2, maxWidth: '100%', height: 'auto' }}
+                />
+            )}
 
             {/* 提示訊息 */}
             <Snackbar

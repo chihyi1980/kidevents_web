@@ -13,8 +13,8 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "Kid Events",
-  description: "Kid Events",
+  title: "台灣最新兒童活動 Kid Events",
+  description: "台灣最新兒童活動 Kid Events",
 };
 
 export default function RootLayout({ children }) {
