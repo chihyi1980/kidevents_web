@@ -5,7 +5,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Masonry } from '@mui/lab';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-// import { useSearchParams, useRouter } from 'next/navigation';  // 使用 next/navigation 的 useSearchParams 來代替 useRouter.query
 import EventDetail from './EventDetail'; // 引入 EventDetail 組件
 
 const ages = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18'];
@@ -13,9 +12,6 @@ const ages = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13
 const MiddleLayer = ({ events = [], locs = [], tags = [] }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  // const router = useRouter();
-  // const searchParams = useSearchParams();  // 使用 useSearchParams 來取得 query 參數
-  // const eventId = searchParams.get('eventId');  // 從 searchParams 中獲取 eventId
 
   // 過濾條件狀態
   const [searchText, setSearchText] = useState('');
@@ -41,29 +37,13 @@ const MiddleLayer = ({ events = [], locs = [], tags = [] }) => {
     event['event_loc_detail'] = detail['event_loc_detail'];
     setSelectedEvent(event);
     setOpen(true);
-    // router.push(`/event/${event._id}`); // 使用 Next.js 路由机制导航
   };
 
   // 關閉對話框
   const handleClose = () => {
     setOpen(false);
     setSelectedEvent(null);
-    // router.push('/'); // 使用 Next.js 路由机制导航回首页
   };
-
-  // 當網址改變時，檢查是否有 eventId 來決定是否打開對話框
-  // useEffect(() => {
-  //   if (eventId) {
-  //     const event = events.find((e) => e._id === eventId);
-  //     if (event) {
-  //       setSelectedEvent(event);
-  //       setOpen(true);
-  //     }
-  //   } else {
-  //     setOpen(false);
-  //     setSelectedEvent(null);
-  //   }
-  // }, [eventId, events]);
 
   // 過濾活動
   const filteredEvents = events.filter((event) => {
@@ -124,16 +104,26 @@ const MiddleLayer = ({ events = [], locs = [], tags = [] }) => {
       </Box>
 
       {/* 活動分類按鈕 */}
-      <Box sx={{ display: 'flex', gap: 1, marginBottom: 4 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 1, marginBottom: 4 }}>
         {tags.map((tag) => (
           <Button
             key={tag}
             variant={selectedTags.includes(tag) ? 'contained' : 'outlined'}
             onClick={() => toggleCategory(tag)}
             sx={{
-              borderRadius: 20,
-              padding: '5px 15px',
+              borderRadius: 25,
+              padding: '10px 20px',
               textTransform: 'none',
+              boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+              background: selectedTags.includes(tag)
+                ? 'linear-gradient(135deg, #42a5f5, #478ed1)'
+                : 'linear-gradient(135deg, #fff, #f0f0f0)',
+              color: selectedTags.includes(tag) ? '#fff' : '#000',
+              '&:hover': {
+                background: selectedTags.includes(tag)
+                  ? 'linear-gradient(135deg, #478ed1, #357abf)'
+                  : 'linear-gradient(135deg, #f9f9f9, #e0e0e0)',
+              },
             }}
           >
             {tag}
