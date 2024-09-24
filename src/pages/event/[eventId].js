@@ -39,7 +39,7 @@ export default function EventPage({ eventId }) {
     };
 
     if (!event) {
-        return <Typography>Loading...</Typography>; // 顯示載入中訊息
+        return <Typography>台灣最新兒童活動資訊</Typography>; // 顯示載入中訊息
     }
 
     return (
@@ -52,7 +52,7 @@ export default function EventPage({ eventId }) {
                     <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="home" sx={{ marginRight: 1 }}>
                         <HomeIcon sx={{ fontSize: 40 }} />
                     </IconButton>
-                    <b>台灣最新兒童活動資訊</b>
+                    <a href="/"><b>台灣最新兒童活動資訊</b></a>
                 </Typography>
             </Box>
             {/* 分隔線和間距 */}
