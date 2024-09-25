@@ -5,7 +5,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Masonry } from '@mui/lab';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import EventDetail from './EventDetail'; // 引入 EventDetail 組件
+import EventDetail from './EventDetail';
+import { track } from '@vercel/analytics';
 
 const ages = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18'];
 
@@ -37,6 +38,7 @@ const MiddleLayer = ({ events = [], locs = [], tags = [] }) => {
     event['event_loc_detail'] = detail['event_loc_detail'];
     setSelectedEvent(event);
     setOpen(true);
+    track('Open Event: ', {'event_id': event['_id'], 'event_name': event['event_name'] });
   };
 
   // 關閉對話框

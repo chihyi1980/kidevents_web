@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, IconButton, Typography, Card, CardContent, CardMedia, Snackbar, SnackbarContent, Box } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ShareIcon from '@mui/icons-material/Share';
+import { track } from '@vercel/analytics';
 
 const EventDetail = ({ open, event, onClose }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -12,6 +13,7 @@ const EventDetail = ({ open, event, onClose }) => {
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href + 'event/' + event['_id']); // 將當前 URL 複製到剪貼簿
     setSnackbarOpen(true); // 顯示提示訊息
+    track('Share Event: ', {'event_id': event['_id'], 'event_name': event['event_name'] });
   };
 
   // 關閉提示訊息

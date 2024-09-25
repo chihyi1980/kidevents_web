@@ -4,6 +4,7 @@ import TopLayer from './TopLayer';
 import MiddleLayer from './MiddleLayer';
 import { Container, Box, Divider } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { Analytics } from '@vercel/analytics/react';
 
 // 創建自定義主題
 const theme = createTheme({
@@ -45,6 +46,7 @@ const HomePage = ({ events, locs, tags }) => {
           </Box>
         </Container>
       </Box>
+      <Analytics />
     </ThemeProvider>
   );
 };

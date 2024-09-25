@@ -1,14 +1,18 @@
+'use client';  // 將這行加在文件的最頂部
+
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Typography, Card, CardContent, CardMedia, IconButton, Box, Snackbar, SnackbarContent, Divider } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import ShareIcon from '@mui/icons-material/Share';
 import HomeIcon from '@mui/icons-material/Home';
+import { track } from '@vercel/analytics';
 
 export default function EventPage({ eventId }) {
     const router = useRouter();
     const [event, setEvent] = useState(null);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
+    // track('Share Event Open: ', {'event_id': eventId });
 
     useEffect(() => {
         // 使用 useEffect 來在頁面載入時取得事件詳情
@@ -17,6 +21,7 @@ export default function EventPage({ eventId }) {
                 const response = await fetch(`/api/events/online/${eventId}`);
                 const data = await response.json();
                 setEvent(data);
+                track('Share Event: ', {'event_id': data['_id'], 'event_name': data['event_name'] });
             } catch (error) {
                 console.error('Failed to fetch event details:', error);
             }
@@ -28,6 +33,7 @@ export default function EventPage({ eventId }) {
     const handleShare = () => {
         navigator.clipboard.writeText(window.location.href); // 將當前 URL 複製到剪貼簿
         setSnackbarOpen(true); // 顯示提示訊息
+        track('Share Event: ', {'event_id': event['_id'], 'event_name': event['event_name'] });
     };
 
     const handleSnackbarClose = () => {
