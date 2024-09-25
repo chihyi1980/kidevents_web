@@ -75,7 +75,8 @@ export default function EventPage({ eventId }) {
                 {event.event_name}
             </Typography>
 
-            <Typography variant="body1" gutterBottom>
+            {/* 縮短活動連結，超出範圍顯示省略號 */}
+            <Typography variant="body1" gutterBottom sx={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%' }}>
                 活動連結: <a href={event.event_link} target="_blank" style={{ textDecoration: 'underline' }}>{event.event_link}</a>
             </Typography>
 
@@ -109,13 +110,16 @@ export default function EventPage({ eventId }) {
                 </CardContent>
             </Card>
 
+            {/* 點擊圖片時在新窗口中打開 */}
             {event.event_img && event.event_img.trim() !== '' && (
-                <CardMedia
-                    component="img"
-                    image={event.event_img}
-                    alt={event.event_name}
-                    sx={{ marginBottom: 2, maxWidth: '100%', height: 'auto' }}
-                />
+                <a href={event.event_img} target="_blank" rel="noopener noreferrer">
+                    <CardMedia
+                        component="img"
+                        image={event.event_img}
+                        alt={event.event_name}
+                        sx={{ marginBottom: 2, maxWidth: '100%', height: 'auto' }}
+                    />
+                </a>
             )}
 
             {/* 提示訊息 */}

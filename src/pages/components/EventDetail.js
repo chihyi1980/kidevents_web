@@ -39,7 +39,7 @@ const EventDetail = ({ open, event, onClose }) => {
       <DialogContent>
         {event && (
           <>
-            <Typography variant="body1" gutterBottom>
+            <Typography variant="body1" gutterBottom sx={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%' }}>
               活動連結: <a href={event.event_link} target="_blank" style={{ textDecoration: 'underline' }}>{event.event_link}</a>
             </Typography>
             <Typography variant="body1" gutterBottom>
@@ -65,7 +65,9 @@ const EventDetail = ({ open, event, onClose }) => {
               </CardContent>
             </Card>
             {event.event_img && event.event_img.trim() !== '' && (
-              <CardMedia component="img" image={event.event_img} alt={event.event_name} sx={{ marginBottom: 2, maxWidth: '100%', height: 'auto' }} />
+              <a href={event.event_img} target="_blank" rel="noopener noreferrer">
+                <CardMedia component="img" image={event.event_img} alt={event.event_name} sx={{ marginBottom: 2, maxWidth: '100%', height: 'auto' }} />
+              </a>
             )}
           </>
         )}
