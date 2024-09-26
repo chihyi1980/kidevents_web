@@ -6,29 +6,13 @@ import { Typography, Card, CardContent, CardMedia, IconButton, Box, Snackbar, Sn
 import CloseIcon from '@mui/icons-material/Close';
 import ShareIcon from '@mui/icons-material/Share';
 import HomeIcon from '@mui/icons-material/Home';
-import { track } from '@vercel/analytics';
+import { track } from '@vercel/analytics/server';
 
-export default function EventPage({ eventId }) {
+export default function EventPage({ event }) {
     const router = useRouter();
-    const [event, setEvent] = useState(null);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
-    // track('Share Event Open: ', {'event_id': eventId });
+    track('Share Event Open: ', {'event_id': event['_id'], 'event_name': event['event_name'] });
 
-    useEffect(() => {
-        // 使用 useEffect 來在頁面載入時取得事件詳情
-        const fetchEventDetails = async () => {
-            try {
-                const response = await fetch(`/api/events/online/${eventId}`);
-                const data = await response.json();
-                setEvent(data);
-                track('Share Event: ', {'event_id': data['_id'], 'event_name': data['event_name'] });
-            } catch (error) {
-                console.error('Failed to fetch event details:', error);
-            }
-        };
-
-        fetchEventDetails();
-    }, [eventId]);
 
     const handleShare = () => {
         navigator.clipboard.writeText(window.location.href); // 將當前 URL 複製到剪貼簿
@@ -87,7 +71,7 @@ export default function EventPage({ eventId }) {
             </Typography>
 
             <Typography variant="body1" gutterBottom>
-                活動日期: {new Date(event.event_start_date).toLocaleDateString()} ~ {new Date(event.event_end_date).toLocaleDateString()}
+                活動日期: { event.event_start_date } ~ { event.event_end_date }
             </Typography>
 
             {(event.event_min_age || event.event_max_age) && (
@@ -152,10 +136,13 @@ export default function EventPage({ eventId }) {
 // 使用 getServerSideProps 來獲取 eventId
 export async function getServerSideProps(context) {
     const { eventId } = context.params; // 从 context.params 中获取 eventId
+    // 從 API 獲取事件詳情
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/events/online/${eventId}`);
+    const event = await res.json();
 
     return {
         props: {
-            eventId, // 将 eventId 作为 props 传递给组件
+            event, // 将 eventId 作为 props 传递给组件
         },
     };
 }

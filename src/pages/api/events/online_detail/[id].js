@@ -3,7 +3,7 @@ import axios from 'axios';
 export default async function handler(req, res) {
   const { id } = req.query;
   try {
-    const url = process.env.REACT_APP_API_HOST + '/api/events/online_detail/' + id;
+    const url = process.env.NEXT_PUBLIC_API_HOST + '/api/events/online_detail/' + id;
 
     // 發送 GET 請求到外部 API
     const response = await axios.get(url);
