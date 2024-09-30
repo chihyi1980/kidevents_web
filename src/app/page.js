@@ -1,9 +1,9 @@
 import HomePage from '../pages/components/HomePage';
 
 export default async function Home() {
-  const eventsRes = await fetch(process.env.NEXT_PUBLIC_API_HOST + '/api/events/online_list', { next: { revalidate: 30 } });
-  const locsRes = await fetch(process.env.NEXT_PUBLIC_API_HOST + '/api/loc/online_list', { next: { revalidate: 30 } });
-  const tagsRes = await fetch(process.env.NEXT_PUBLIC_API_HOST + '/api/tag/online_list', { next: { revalidate: 30 } });
+  const eventsRes = await fetch(process.env.NEXT_PUBLIC_API_HOST + '/api/events/online_list', { next: { revalidate: 60 } });
+  const locsRes = await fetch(process.env.NEXT_PUBLIC_API_HOST + '/api/loc/online_list', { next: { revalidate: 60 } });
+  const tagsRes = await fetch(process.env.NEXT_PUBLIC_API_HOST + '/api/tag/online_list', { next: { revalidate: 60 } });
 
   const events = await eventsRes.json();
   const locs = await locsRes.json();

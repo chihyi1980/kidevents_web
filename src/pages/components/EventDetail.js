@@ -13,7 +13,7 @@ const EventDetail = ({ open, event, onClose }) => {
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href + 'event/' + event['_id']); // 將當前 URL 複製到剪貼簿
     setSnackbarOpen(true); // 顯示提示訊息
-    track('Share Event: ', {'event_id': event['_id'], 'event_name': event['event_name'] });
+    track('Share Event: ', { 'event_id': event['_id'], 'event_name': event['event_name'] });
   };
 
   // 關閉提示訊息
@@ -52,12 +52,16 @@ const EventDetail = ({ open, event, onClose }) => {
                 適合年齡: {event.event_min_age} ~ {event.event_max_age} 歲
               </Typography>
             )}
-            <Typography variant="body1" gutterBottom>
-              活動地點: {event.event_loc_detail}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              活動價格: {event.event_price} 元
-            </Typography>
+            {(event.event_loc_detail) && (
+              <Typography variant="body1" gutterBottom>
+                活動地點: {event.event_loc_detail}
+              </Typography>
+            )}
+            {(event.event_price) && (
+              <Typography variant="body1" gutterBottom>
+                活動價格: {event.event_price} 元
+              </Typography>
+            )}
             <Typography variant="body1" gutterBottom>
               活動類型: {event.event_tag_names.join(', ')}
             </Typography>
