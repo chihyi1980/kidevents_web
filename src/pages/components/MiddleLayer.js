@@ -51,7 +51,17 @@ const MiddleLayer = ({ events = [], locs = [], tags = [] }) => {
   const filteredEvents = events.filter((event) => {
     const matchesName = event.event_name.includes(searchText) || (event.event_org ? event.event_org.includes(searchText) : false);
     const matchesLoc = selectedLoc ? event.event_loc_name === selectedLoc : true;
-    const matchesAge = selectedAge ? (selectedAge >= event.event_min_age && selectedAge <= event.event_max_age) : true;
+    // const matchesAge = selectedAge ? (selectedAge >= event.event_min_age && selectedAge <= event.event_max_age) : true;
+
+    //判斷年齡
+    const eventMinAge = event.event_min_age ? parseInt(event.event_min_age, 10) : null;
+    const eventMaxAge = event.event_max_age ? parseInt(event.event_max_age, 10) : null;
+
+    const matchesAge = selectedAge ? 
+      ((eventMinAge === null || selectedAge >= eventMinAge) && 
+      (eventMaxAge === null || selectedAge <= eventMaxAge)) 
+      : true;
+
     const matchesTags = selectedTags.length > 0
       ? selectedTags.some(tag => event.event_tag_names.includes(tag))
       : true;
