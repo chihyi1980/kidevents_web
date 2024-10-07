@@ -38,7 +38,7 @@ const MiddleLayer = ({ events = [], locs = [], tags = [] }) => {
     event['event_loc_detail'] = detail['event_loc_detail'];
     setSelectedEvent(event);
     setOpen(true);
-    track('Open Event: ', {'event_id': event['_id'], 'event_name': event['event_name'] });
+    track('Open Event: ', { 'event_id': event['_id'], 'event_name': event['event_name'] });
   };
 
   // 關閉對話框
@@ -57,9 +57,9 @@ const MiddleLayer = ({ events = [], locs = [], tags = [] }) => {
     const eventMinAge = event.event_min_age ? parseInt(event.event_min_age, 10) : null;
     const eventMaxAge = event.event_max_age ? parseInt(event.event_max_age, 10) : null;
 
-    const matchesAge = selectedAge ? 
-      ((eventMinAge === null || selectedAge >= eventMinAge) && 
-      (eventMaxAge === null || selectedAge <= eventMaxAge)) 
+    const matchesAge = selectedAge ?
+      ((eventMinAge === null || selectedAge >= eventMinAge) &&
+        (eventMaxAge === null || selectedAge <= eventMaxAge))
       : true;
 
     const matchesTags = selectedTags.length > 0
@@ -124,24 +124,25 @@ const MiddleLayer = ({ events = [], locs = [], tags = [] }) => {
             onClick={() => toggleCategory(tag)}
             sx={{
               borderRadius: 25,
-              padding: '10px 20px',
+              padding: '8px 16px',
               textTransform: 'none',
-              boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-              background: selectedTags.includes(tag)
-                ? 'linear-gradient(135deg, #42a5f5, #478ed1)'
-                : 'linear-gradient(135deg, #fff, #f0f0f0)',
-              color: selectedTags.includes(tag) ? '#fff' : '#000',
+              fontSize: '1rem', // 設置字體大小
+              fontWeight: 'bold', // 設置字體粗細
+              fontFamily: 'Arial, sans-serif', // 設置字體樣式
+              border: selectedTags.includes(tag) ? 'none' : '1px solid #ccc', // 未選中時顯示描邊
+              backgroundColor: selectedTags.includes(tag) ? '#4A7856' : '#fff', // 選中時背景顏色
+              color: selectedTags.includes(tag) ? '#fff' : '#000', // 選中與未選中時字體顏色
               '&:hover': {
-                background: selectedTags.includes(tag)
-                  ? 'linear-gradient(135deg, #478ed1, #357abf)'
-                  : 'linear-gradient(135deg, #f9f9f9, #e0e0e0)',
+                backgroundColor: selectedTags.includes(tag) ? '#3A6345' : '#f0f0f0', // hover效果
               },
             }}
           >
-            {tag}
+            #{tag}
           </Button>
         ))}
       </Box>
+
+
 
       {/* 過濾後的活動列表 */}
       <Masonry columns={isMobile ? 1 : 4} spacing={3}>

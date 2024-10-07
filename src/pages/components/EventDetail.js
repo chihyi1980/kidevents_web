@@ -59,7 +59,7 @@ const EventDetail = ({ open, event, onClose }) => {
             )}
             {(event.event_price) && (
               <Typography variant="body1" gutterBottom>
-                活動價格: {event.event_price} 元
+                活動價格: {event.event_price} 
               </Typography>
             )}
             <Typography variant="body1" gutterBottom>

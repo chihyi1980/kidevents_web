@@ -85,7 +85,7 @@ export default function EventPage({ event }) {
             </Typography>
 
             <Typography variant="body1" gutterBottom>
-                活動價格: {event.event_price} 元
+                活動價格: {event.event_price} 
             </Typography>
 
             <Typography variant="body1" gutterBottom>
