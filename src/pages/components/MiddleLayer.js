@@ -152,8 +152,15 @@ const MiddleLayer = ({ events = [], locs = [], tags = [] }) => {
               <CardMedia
                 component="img"
                 height="200"
-                image={event.event_img ? event.event_img : '/noPic.webp'}
+                image={
+                  event.event_img
+                    ? event.event_img
+                    : (event.event_min_age && event.event_min_age < 6)
+                      ? '/noPic1.webp'
+                      : '/noPic2.webp'
+                }
                 alt={event.event_name}
+                loading="lazy" // 懶加載屬性
               />
               {/* 顯示 event_org 的區塊 */}
               {event.event_org && event.event_org.trim() !== '' && (
