@@ -194,7 +194,7 @@ const MiddleLayer = ({ events = [], locs = [], tags = [] }) => {
               </Typography>
               <Typography variant="body2">{event.event_loc_name} </Typography>
               {(event.event_start_date || event.event_start_date) && (
-                <Typography variant="body2">{event.event_start_date} ~ {event.event_start_date}</Typography>
+                <Typography variant="body2">{event.event_start_date} ~ {event.event_end_date}</Typography>
               )}
               {(event.event_min_age || event.event_max_age) && (
                 <Typography variant="body2">

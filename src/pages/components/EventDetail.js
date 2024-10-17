@@ -19,8 +19,12 @@ const EventDetail = ({ open, event, onClose }) => {
       category: "Share Event",
       action: "Share Event",
       label: event['_id'] + ' ' + event['event_name'],
-  });
+    });
   };
+
+  const handleClickLink = () => {
+    console.log(event.name);
+  }
 
   // 關閉提示訊息
   const handleSnackbarClose = () => {
@@ -48,7 +52,7 @@ const EventDetail = ({ open, event, onClose }) => {
         {event && (
           <>
             <Typography variant="body1" gutterBottom sx={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: '100%' }}>
-              活動連結: <a href={event.event_link} target="_blank" style={{ textDecoration: 'underline' }}>{event.event_link}</a>
+              活動連結: <a href={event.event_link} target="_blank" style={{ textDecoration: 'underline' }} onClick={ handleClickLink }>{event.event_link}</a>
             </Typography>
             <Typography variant="body1" gutterBottom>
               活動日期: {new Date(event.event_start_date).toLocaleDateString()} ~ {new Date(event.event_end_date).toLocaleDateString()}
@@ -65,7 +69,7 @@ const EventDetail = ({ open, event, onClose }) => {
             )}
             {(event.event_price) && (
               <Typography variant="body1" gutterBottom>
-                活動價格: {event.event_price} 
+                活動價格: {event.event_price}
               </Typography>
             )}
             <Typography variant="body1" gutterBottom>
