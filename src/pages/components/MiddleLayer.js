@@ -44,7 +44,7 @@ const MiddleLayer = ({ events = [], locs = [], tags = [] }) => {
     // Send a custom event
     ReactGA.event({
       category: "Open Event Dialog",
-      label: event['_id'] + ' ' + event['event_name']  , // optional
+      label: event['_id'] + ' ' + event['event_name'], // optional
     });
 
   };
@@ -191,7 +191,10 @@ const MiddleLayer = ({ events = [], locs = [], tags = [] }) => {
               <Typography variant="h6" component="h2" sx={{ fontWeight: 'bold' }}>
                 {event.event_name}
               </Typography>
-              <Typography variant="body2">{event.event_loc_name} 日期：{event.event_start_date}</Typography>
+              <Typography variant="body2">{event.event_loc_name} </Typography>
+              {(event.event_start_date || event.event_start_date) && (
+                <Typography variant="body2">{event.event_start_date} ~ {event.event_start_date}</Typography>
+              )}
               {(event.event_min_age || event.event_max_age) && (
                 <Typography variant="body2">
                   年齡: {event.event_min_age} ~ {event.event_max_age}
