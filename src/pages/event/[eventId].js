@@ -17,8 +17,7 @@ export default function EventPage({ event }) {
     // track('Share Event Open: ', {'event_id': event['_id'], 'event_name': event['event_name'] });
     // Send a custom event
     ReactGA.event({
-        category: "kidevents",
-        action: "Share Event Open",
+        category: "Share Event Open",
         label: event['_id'] + ' ' + event['event_name'],
     });
 
@@ -28,8 +27,7 @@ export default function EventPage({ event }) {
         setSnackbarOpen(true); // 顯示提示訊息
         // track('Share Event: ', {'event_id': event['_id'], 'event_name': event['event_name'] });
         ReactGA.event({
-            category: "kidevents",
-            action: "Share Event",
+            category: "Share Event",
             label: event['_id'] + ' ' + event['event_name'],
         });
     };

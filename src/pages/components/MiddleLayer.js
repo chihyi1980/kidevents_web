@@ -43,8 +43,7 @@ const MiddleLayer = ({ events = [], locs = [], tags = [] }) => {
 
     // Send a custom event
     ReactGA.event({
-      category: "kidevents",
-      action: "open event",
+      category: "Open Event Dialog",
       label: event['_id'] + ' ' + event['event_name']  , // optional
     });
 
