@@ -1,3 +1,5 @@
+'use client';  // 將這行加在文件的最頂部
+
 import localFont from "next/font/local";
 import "./globals.css";
 import React, { useEffect } from 'react';
