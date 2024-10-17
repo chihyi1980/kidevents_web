@@ -5,6 +5,9 @@ import MiddleLayer from './MiddleLayer';
 import { Container, Box, Divider } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Analytics } from '@vercel/analytics/react';
+import ReactGA from "react-ga4";
+
+ReactGA.initialize("G-HC0X0BZJR9");
 
 // 創建自定義主題
 const theme = createTheme({
@@ -24,6 +27,9 @@ const theme = createTheme({
   },
   shadows: Array(25).fill('0px 4px 20px rgba(0, 0, 0, 0.1)'),
 });
+
+// Send pageview with a custom path
+ReactGA.send({ hitType: "pageview", page: "/", title: "Home Page" });
 
 const HomePage = ({ events, locs, tags }) => {
   return (
