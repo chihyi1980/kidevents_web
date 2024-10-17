@@ -5,6 +5,7 @@ import { Dialog, DialogTitle, DialogContent, IconButton, Typography, Card, CardC
 import CloseIcon from '@mui/icons-material/Close';
 import ShareIcon from '@mui/icons-material/Share';
 // import { track } from '@vercel/analytics';
+import ReactGA from "react-ga4";
 
 const EventDetail = ({ open, event, onClose }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
