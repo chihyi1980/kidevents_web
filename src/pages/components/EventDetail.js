@@ -17,6 +17,7 @@ const EventDetail = ({ open, event, onClose }) => {
     // track('Share Event: ', { 'event_id': event['_id'], 'event_name': event['event_name'] });
     ReactGA.event({
       category: "Share Event",
+      action: "Share Event",
       label: event['_id'] + ' ' + event['event_name'],
   });
   };
