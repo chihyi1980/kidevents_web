@@ -21,8 +21,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html>
+    <html lang="en">
       <Head>
+        <title>台灣最新兒童活動 Kid Events</title>
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -31,7 +32,7 @@ export default function RootLayout({ children }) {
       <body>
         <Script
           id="google-tag-manager"
-          strategy="beforeInteractive"
+          strategy="afterInteractive" // 可以改為 "beforeInteractive" 或 "afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': 
@@ -42,7 +43,6 @@ export default function RootLayout({ children }) {
     `,
           }}
         />
-
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-K65WHJSK"
