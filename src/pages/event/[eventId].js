@@ -6,18 +6,32 @@ import { Typography, Card, CardContent, CardMedia, IconButton, Box, Snackbar, Sn
 import CloseIcon from '@mui/icons-material/Close';
 import ShareIcon from '@mui/icons-material/Share';
 import HomeIcon from '@mui/icons-material/Home';
-import { track } from '@vercel/analytics/server';
+// import { track } from '@vercel/analytics/server';
+import ReactGA from "react-ga4";
+
+ReactGA.initialize("G-HC0X0BZJR9");
 
 export default function EventPage({ event }) {
     const router = useRouter();
     const [snackbarOpen, setSnackbarOpen] = useState(false);
-    track('Share Event Open: ', {'event_id': event['_id'], 'event_name': event['event_name'] });
+    // track('Share Event Open: ', {'event_id': event['_id'], 'event_name': event['event_name'] });
+    // Send a custom event
+    ReactGA.event({
+        category: "kidevents",
+        action: "Share Event Open",
+        label: event['_id'] + ' ' + event['event_name'],
+    });
 
 
     const handleShare = () => {
         navigator.clipboard.writeText(window.location.href); // 將當前 URL 複製到剪貼簿
         setSnackbarOpen(true); // 顯示提示訊息
-        track('Share Event: ', {'event_id': event['_id'], 'event_name': event['event_name'] });
+        // track('Share Event: ', {'event_id': event['_id'], 'event_name': event['event_name'] });
+        ReactGA.event({
+            category: "kidevents",
+            action: "Share Event",
+            label: event['_id'] + ' ' + event['event_name'],
+        });
     };
 
     const handleSnackbarClose = () => {
@@ -71,7 +85,7 @@ export default function EventPage({ event }) {
             </Typography>
 
             <Typography variant="body1" gutterBottom>
-                活動日期: { event.event_start_date } ~ { event.event_end_date }
+                活動日期: {event.event_start_date} ~ {event.event_end_date}
             </Typography>
 
             {(event.event_min_age || event.event_max_age) && (
@@ -85,7 +99,7 @@ export default function EventPage({ event }) {
             </Typography>
 
             <Typography variant="body1" gutterBottom>
-                活動價格: {event.event_price} 
+                活動價格: {event.event_price}
             </Typography>
 
             <Typography variant="body1" gutterBottom>

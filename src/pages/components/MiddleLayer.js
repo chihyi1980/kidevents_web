@@ -6,7 +6,8 @@ import { Masonry } from '@mui/lab';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import EventDetail from './EventDetail';
-import { track } from '@vercel/analytics';
+// import { track } from '@vercel/analytics';
+import ReactGA from "react-ga4";
 
 const ages = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18'];
 
@@ -38,7 +39,15 @@ const MiddleLayer = ({ events = [], locs = [], tags = [] }) => {
     event['event_loc_detail'] = detail['event_loc_detail'];
     setSelectedEvent(event);
     setOpen(true);
-    track('Open Event: ', { 'event_id': event['_id'], 'event_name': event['event_name'] });
+    // track('Open Event: ', { 'event_id': event['_id'], 'event_name': event['event_name'] });
+
+    // Send a custom event
+    ReactGA.event({
+      category: "kidevents",
+      action: "open event",
+      label: event['_id'] + ' ' + event['event_name']  , // optional
+    });
+
   };
 
   // 關閉對話框
