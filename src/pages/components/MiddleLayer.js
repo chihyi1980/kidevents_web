@@ -67,7 +67,7 @@ const MiddleLayer = ({ events = [], locs = [], tags = [] }) => {
     //判斷年齡
     const eventMinAge = event.event_min_age ? parseInt(event.event_min_age, 10) : null;
     const eventMaxAge = event.event_max_age ? parseInt(event.event_max_age, 10) : null;
-    const matchesAge = selectedAge ? ((eventMinAge === null || selectedAge >= eventMinAge) && (eventMaxAge === null || selectedAge <= eventMaxAge)) : true;
+    const matchesAge = selectedAge ? ((eventMinAge != null && eventMaxAge != null) && (eventMinAge === null || selectedAge >= eventMinAge) && (eventMaxAge === null || selectedAge <= eventMaxAge)) : true;
 
     const matchesTags = selectedTags.length > 0
       ? selectedTags.some(tag => event.event_tag_names.includes(tag))
