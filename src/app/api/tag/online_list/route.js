@@ -18,14 +18,12 @@ export async function GET() {
     const client = await retry(() => clientPromise);
     const db = client.db('option_db');  // 假設標籤也存儲在 option_db 數據庫中
     
-    // 使用索引提示優化查詢
     const tags = await retry(() => 
       db.collection('tag')
         .find(
           { is_enabled: true },
           { 
-            hint: { is_enabled: 1, order: 1 },  // 使用索引提示
-            projection: { value: 1, order: 1, _id: 0 }  // 只返回需要的字段
+            projection: { value: 1, order: 1, _id: 0 }  
           }
         )
         .sort({ order: 1, value: 1 })
