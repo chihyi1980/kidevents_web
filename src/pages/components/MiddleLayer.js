@@ -9,7 +9,6 @@ import EventDetail from './EventDetail';
 // import { track } from '@vercel/analytics';
 import ReactGA from "react-ga4";
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { DateField } from '@mui/x-date-pickers/DateField';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'; // 使用 Dayjs 來處理日期
 import dayjs from 'dayjs'; // 引入 dayjs 來處理日期
@@ -32,18 +31,26 @@ const MiddleLayer = ({ events = [], locs = [], tags = [] }) => {
   const [open, setOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
+  // 排序地點列表
+  const sortedLocs = [...locs].sort((a, b) => {
+    if (a.order === b.order) {
+      return a.value.localeCompare(b.value);
+    }
+    return a.order - b.order;
+  });
+
   const toggleCategory = (category) => {
-    setSelectedTags((prev) =>
-      prev.includes(category) ? prev.filter((c) => c !== category) : [...prev, category]
-    );
+    setSelectedTags(prevTags => {
+      if (prevTags.includes(category)) {
+        return prevTags.filter(tag => tag !== category);
+      } else {
+        return [...prevTags, category];
+      }
+    });
   };
 
   // 打開對話框
-  const handleOpen = async (event) => {
-    const detail = await fetch('/api/events/online_detail/' + event['_id']).then(res => res.json());
-    event['event_link'] = detail['event_link'];
-    event['event_content'] = detail['event_content'];
-    event['event_loc_detail'] = detail['event_loc_detail'];
+  const handleOpen = (event) => {
     setSelectedEvent(event);
     setOpen(true);
     ReactGA.event({
@@ -69,6 +76,7 @@ const MiddleLayer = ({ events = [], locs = [], tags = [] }) => {
     const eventMaxAge = event.event_max_age ? parseInt(event.event_max_age, 10) : null;
     const matchesAge = selectedAge ? ((eventMinAge != null && eventMaxAge != null) && (eventMinAge === null || selectedAge >= eventMinAge) && (eventMaxAge === null || selectedAge <= eventMaxAge)) : true;
 
+    // 判斷標籤
     const matchesTags = selectedTags.length > 0
       ? selectedTags.some(tag => event.event_tag_names.includes(tag))
       : true;
@@ -107,9 +115,9 @@ const MiddleLayer = ({ events = [], locs = [], tags = [] }) => {
             fullWidth
           >
             <MenuItem value="">全部</MenuItem>
-            {locs.map((loc) => (
-              <MenuItem key={loc} value={loc}>
-                {loc}
+            {sortedLocs.map((loc) => (
+              <MenuItem key={loc.value} value={loc.value}>
+                {loc.value}
               </MenuItem>
             ))}
           </TextField>
@@ -136,8 +144,12 @@ const MiddleLayer = ({ events = [], locs = [], tags = [] }) => {
             value={startDate}
             onChange={(date) => setStartDate(date)}
             format="YYYY-MM-DD"
-            renderInput={(params) => <DateField {...params} size='medium' fullWidth />}
-            clearable // 允許清空
+            slotProps={{
+              textField: {
+                size: 'medium',
+                fullWidth: true
+              }
+            }}
             sx={{ flex: 1 }}
           />
           <DatePicker
@@ -145,8 +157,12 @@ const MiddleLayer = ({ events = [], locs = [], tags = [] }) => {
             value={endDate}
             onChange={(date) => setEndDate(date)}
             format="YYYY-MM-DD"
-            renderInput={(params) => <DateField {...params} size='medium' fullWidth />}
-            clearable // 允許清空
+            slotProps={{
+              textField: {
+                size: 'medium',
+                fullWidth: true
+              }
+            }}
             sx={{ flex: 1 }}
           />
         </Box>
@@ -155,25 +171,25 @@ const MiddleLayer = ({ events = [], locs = [], tags = [] }) => {
         <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 1, marginBottom: 4 }}>
           {tags.map((tag) => (
             <Button
-              key={tag}
-              variant={selectedTags.includes(tag) ? 'contained' : 'outlined'}
-              onClick={() => toggleCategory(tag)}
+              key={tag.value}
+              variant={selectedTags.includes(tag.value) ? 'contained' : 'outlined'}
+              onClick={() => toggleCategory(tag.value)}
               sx={{
                 borderRadius: 25,
                 padding: '8px 16px',
                 textTransform: 'none',
-                fontSize: '1rem', // 設置字體大小
-                fontWeight: 'bold', // 設置字體粗細
-                fontFamily: 'Arial, sans-serif', // 設置字體樣式
-                border: selectedTags.includes(tag) ? 'none' : '1px solid #ccc', // 未選中時顯示描邊
-                backgroundColor: selectedTags.includes(tag) ? '#4A7856' : '#fff', // 選中時背景顏色
-                color: selectedTags.includes(tag) ? '#fff' : '#000', // 選中與未選中時字體顏色
+                fontSize: '1rem',
+                fontWeight: 'bold',
+                fontFamily: 'Arial, sans-serif',
+                border: selectedTags.includes(tag.value) ? 'none' : '1px solid #ccc',
+                backgroundColor: selectedTags.includes(tag.value) ? '#4A7856' : '#fff',
+                color: selectedTags.includes(tag.value) ? '#fff' : '#000',
                 '&:hover': {
-                  backgroundColor: selectedTags.includes(tag) ? '#3A6345' : '#f0f0f0', // hover效果
+                  backgroundColor: selectedTags.includes(tag.value) ? '#3A6345' : '#f0f0f0',
                 },
               }}
             >
-              #{tag}
+              #{tag.value}
             </Button>
           ))}
         </Box>
