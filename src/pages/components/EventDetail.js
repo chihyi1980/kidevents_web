@@ -23,7 +23,6 @@ const EventDetail = ({ open, event, onClose }) => {
   };
 
   const handleClickLink = () => {
-    console.log(event.name);
   }
 
   // 關閉提示訊息

@@ -23,13 +23,10 @@ export async function GET() {
     locs.forEach(loc => {
       locsDict[loc._id.toString()] = loc.value;
     });
-    console.log('Locations dictionary:', locsDict);
 
     // 3. 處理每個事件
     const processedEvents = events.map(event => {
       const processedEvent = { ...event };
-      console.log('Processing event:', event._id.toString());
-      console.log('Event loc:', event.event_loc);
 
       // 處理標籤
       if (event.event_tag) {
@@ -43,10 +40,8 @@ export async function GET() {
 
       // 處理地點
       if (event.event_loc) {
-        const locId = event.event_loc.toString();
-        console.log('Looking up location for ID:', locId);
-        console.log('Available location:', locsDict[locId]);
-        processedEvent.event_loc_name = locsDict[locId];
+        const locId = event.event_loc;
+        processedEvent.event_loc_name = locsDict[locId] || '';
         delete processedEvent.event_loc;
       }
 
@@ -87,7 +82,6 @@ export async function GET() {
       return dateB - dateA;
     });
 
-    console.log('Final processed events:', processedEvents);
     return NextResponse.json(processedEvents);
   } catch (error) {
     console.error('獲取事件列表時發生錯誤:', error);

@@ -11,7 +11,7 @@ import ReactGA from "react-ga4";
 
 ReactGA.initialize("G-HC0X0BZJR9");
 
-export default function EventPage({ event }) {
+export default function EventPage({ event, error }) {
     const router = useRouter();
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     // track('Share Event Open: ', {'event_id': event['_id'], 'event_name': event['event_name'] });
@@ -41,6 +41,10 @@ export default function EventPage({ event }) {
     const handleClose = () => {
         router.push('/'); // 導向網站根目錄
     };
+
+    if (error) {
+        return <Typography>錯誤：{error}</Typography>; // 顯示錯誤訊息
+    }
 
     if (!event) {
         return <Typography>台灣最新兒童活動資訊</Typography>; // 顯示載入中訊息
@@ -149,14 +153,41 @@ export default function EventPage({ event }) {
 
 // 使用 getServerSideProps 來獲取 eventId
 export async function getServerSideProps(context) {
-    const { eventId } = context.params; // 从 context.params 中获取 eventId
-    // 從 API 獲取事件詳情
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/events/online/${eventId}`);
-    const event = await res.json();
+    try {
+        const { eventId } = context.params;
+        
+        // 構建完整的 URL
+        const protocol = process.env.NODE_ENV === 'development' ? 'http' : 'https';
+        const host = context.req.headers.host;
+        const baseUrl = `${protocol}://${host}`;
+        const apiUrl = `${baseUrl}/api/events/online/${eventId}`;
+        
+        // 從 API 獲取事件詳情
+        const res = await fetch(apiUrl);
+        
+        if (!res.ok) {
+            const errorText = await res.text();
+            console.error('API Error Response:', errorText);
+            throw new Error(`API responded with status: ${res.status}, body: ${errorText}`);
+        }
+        
+        const event = await res.json();
 
-    return {
-        props: {
-            event, // 将 eventId 作为 props 传递给组件
-        },
-    };
+        if (!event || event.error) {
+            throw new Error(event?.error || 'Failed to fetch event data');
+        }
+
+        return {
+            props: {
+                event,
+            },
+        };
+    } catch (error) {
+        console.error('Error in getServerSideProps:', error);
+        return {
+            props: {
+                error: error.message,
+            },
+        };
+    }
 }
