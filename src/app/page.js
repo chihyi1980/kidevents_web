@@ -1,8 +1,9 @@
 import HomePage from '../pages/components/HomePage';
 import { headers } from 'next/headers';
 
-// 設置頁面每60秒重新驗證一次數據
-export const revalidate = 60;
+// 設置動態數據獲取
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 async function getData() {
   try {
@@ -14,15 +15,27 @@ async function getData() {
     const [eventsRes, locsRes, tagsRes] = await Promise.all([
       fetch(`${baseUrl}/api/events/online_list`, { 
         cache: 'no-store',
-        next: { revalidate: 60 }
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
       }),
       fetch(`${baseUrl}/api/loc/online_list`, { 
         cache: 'no-store',
-        next: { revalidate: 60 }
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
       }),
       fetch(`${baseUrl}/api/tag/online_list`, { 
         cache: 'no-store',
-        next: { revalidate: 60 }
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
       })
     ]);
 
