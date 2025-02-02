@@ -1,8 +1,18 @@
 import { NextResponse } from 'next/server';
 import clientPromise from '@/lib/mongodb';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET() {
   try {
+    // 設置響應頭以防止緩存
+    const headers = {
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0'
+    };
+
     const client = await clientPromise;
     const eventsDb = client.db('events_db');
     const optionDb = client.db('option_db');
@@ -82,10 +92,10 @@ export async function GET() {
       return dateB - dateA;
     });
 
-    return NextResponse.json(processedEvents);
+    return NextResponse.json(processedEvents, { headers });
   } catch (error) {
     console.error('獲取事件列表時發生錯誤:', error);
     console.error('Error stack:', error.stack);
-    return NextResponse.json([]);
+    return NextResponse.json([], { headers });
   }
 }
