@@ -1,6 +1,9 @@
 import HomePage from '../pages/components/HomePage';
 import { headers } from 'next/headers';
 
+// 添加這行來禁用頁面緩存
+export const revalidate = 0;
+
 async function getData() {
   try {
     const headersList = headers();
@@ -9,9 +12,18 @@ async function getData() {
     const baseUrl = `${protocol}://${host}`;
 
     const [eventsRes, locsRes, tagsRes] = await Promise.all([
-      fetch(`${baseUrl}/api/events/online_list`, { cache: 'no-store' }),
-      fetch(`${baseUrl}/api/loc/online_list`, { cache: 'no-store' }),
-      fetch(`${baseUrl}/api/tag/online_list`, { cache: 'no-store' })
+      fetch(`${baseUrl}/api/events/online_list`, { 
+        cache: 'no-store',
+        next: { revalidate: 0 }
+      }),
+      fetch(`${baseUrl}/api/loc/online_list`, { 
+        cache: 'no-store',
+        next: { revalidate: 0 }
+      }),
+      fetch(`${baseUrl}/api/tag/online_list`, { 
+        cache: 'no-store',
+        next: { revalidate: 0 }
+      })
     ]);
 
     if (!eventsRes.ok || !locsRes.ok || !tagsRes.ok) {
