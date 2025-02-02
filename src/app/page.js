@@ -1,8 +1,8 @@
 import HomePage from '../pages/components/HomePage';
 import { headers } from 'next/headers';
 
-// 添加這行來禁用頁面緩存
-export const revalidate = 0;
+// 設置頁面每60秒重新驗證一次數據
+export const revalidate = 60;
 
 async function getData() {
   try {
@@ -14,15 +14,15 @@ async function getData() {
     const [eventsRes, locsRes, tagsRes] = await Promise.all([
       fetch(`${baseUrl}/api/events/online_list`, { 
         cache: 'no-store',
-        next: { revalidate: 0 }
+        next: { revalidate: 60 }
       }),
       fetch(`${baseUrl}/api/loc/online_list`, { 
         cache: 'no-store',
-        next: { revalidate: 0 }
+        next: { revalidate: 60 }
       }),
       fetch(`${baseUrl}/api/tag/online_list`, { 
         cache: 'no-store',
-        next: { revalidate: 0 }
+        next: { revalidate: 60 }
       })
     ]);
 
