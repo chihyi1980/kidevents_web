@@ -12,6 +12,7 @@ async function getData() {
     const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
     const baseUrl = `${protocol}://${host}`;
 
+    /*
     const [eventsRes, locsRes, tagsRes] = await Promise.all([
       fetch(`${baseUrl}/api/events/online_list`, { 
         cache: 'no-store',
@@ -43,11 +44,22 @@ async function getData() {
       throw new Error('Failed to fetch data');
     }
 
+
     const [events, locs, tags] = await Promise.all([
       eventsRes.json(),
       locsRes.json(),
       tagsRes.json()
     ]);
+
+    */
+
+    const eventsRes = await fetch(`${baseUrl}/api/events/online_list`, { next: { revalidate: 60 } });
+    const locsRes = await fetch(`${baseUrl}/api/loc/online_list`, { next: { revalidate: 60 } });
+    const tagsRes = await fetch(`${baseUrl}/api/tag/online_list`, { next: { revalidate: 60 } });
+
+    const events = await eventsRes.json();
+    const locs = await locsRes.json();
+    const tags = await tagsRes.json();
 
     return { events, locs, tags };
   } catch (error) {
